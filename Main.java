@@ -8,8 +8,8 @@ public class Main {
         String name = scanner.nextLine();
 
         int[][] field  = new int [7][7];
-        for(int i = 1; i < 8; i++){
-            for(int j = 1; j < 8; j++){
+        for(int i = 0; i < 7; i++){
+            for(int j = 0; j < 7; j++){
                 field[i][j] = 0;
             }
         }
@@ -25,20 +25,46 @@ public class Main {
 
             if (check3squareShipsAllCoordinates(x12, y12, x22, y22, x32, y32)) {
                 System.out.println(x12 + " " + y12 + " " + x22 + " " + y22 + " " + x32 + " " + y32);
+                field[x12][y12]=1;
+                field[x22][y22]=1;
+                field[x32][y32]=1;
+                value++;
+            }
+        }
+        while(value < 3) {
+            int x12 = random.nextInt(7);
+            int y12 = random.nextInt(7);
+            int x22 = random.nextInt(7);
+            int y22 = random.nextInt(7);
+
+
+
+            if(check2squareShipsAllCoordinates(x12, y12, x22, y22) && check2SquaresShipsAround(x12, y12, x22, y22, field)) {
+                System.out.println(x12 + " " + y12 + " " + x22 + " " + y22);
+                field[x12][y12]=1;
+                field[x22][y22]=1;
+                value++;
+            }
+        }
+        value=0;
+        while(value < 4) {
+            int x12 = random.nextInt(7);
+            int y12 = random.nextInt(7);
+
+
+
+            if(checkSquaresAround(x12, y12, field)) {
+                System.out.println(x12 + " " + y12);
+                field[x12][y12]=1;
                 value++;
             }
         }
 
-        for(int i = 0; i < 3; i++){
-            int xCoordinate = random.nextInt(7);
-            int yCoordinate = random.nextInt(7);
-            if(checkSquaresAround(xCoordinate, yCoordinate, field)){
-                field[xCoordinate][yCoordinate] = 1;
-            }
-        }
 
-        for(int i = 1; i<8; i++) {
-            for (int j = 1; j < 8; j++) {
+
+
+        for(int i = 0; i<7; i++) {
+            for (int j = 0; j < 7; j++) {
                 if (j == 0) {
                     System.out.print("\n" + field[i][j] + " ");
                 } else {
@@ -51,21 +77,79 @@ public class Main {
 
     }
 
+    public static boolean check2SquaresShipsAround(int x1, int y1, int x2, int y2, int[][] matrix){
+        boolean squaresCheking = checkSquaresAround(x1, y1, matrix) && checkSquaresAround(x2, y2, matrix);
+        return squaresCheking;
+    }
+
 
     public static boolean checkSquaresAround(int x, int y, int[][] matrix){
-        boolean square1 = matrix[x][y-1] != 0;
-        boolean square2 = matrix[x][y+1] != 0;
-        boolean square3 = matrix[x-1][y] != 0;
-        boolean square4 = matrix[x+1][y] != 0;
-        boolean square5 = matrix[x-1][y-1] != 0;
-        boolean square6 = matrix[x+1][y+1] != 0;
-        boolean square7 = matrix[x-1][y+1] != 0;
-        boolean square8 = matrix[x+1][y-1] != 0;
-        if(square1 || square2 || square3 || square4 || square5 || square6 || square7 || square8){
-            return false;
+        if(x==0 && (y != 0 && y != 6)){
+            boolean square1 = matrix[x][y-1] != 0;
+            boolean square2 = matrix[x][y+1] != 0;
+            boolean square4 = matrix[x+1][y] != 0;
+            boolean square6 = matrix[x+1][y+1] != 0;
+            boolean square8 = matrix[x+1][y-1] != 0;
+            return !(square1 || square2 || square4 || square6 || square8);
+        }
+        else if(x==0 && y==0){
+            boolean square2 = matrix[x][y+1] != 0;
+            boolean square4 = matrix[x+1][y] != 0;
+            boolean square6 = matrix[x+1][y+1] != 0;
+            return !(square6 || square2 || square4);
+        }
+        else if(x == 0 && y == 6){
+            boolean square1 = matrix[x][y-1] != 0;
+            boolean square4 = matrix[x+1][y] != 0;
+            boolean square8 = matrix[x+1][y-1] != 0;
+            return  !(square1 || square4 || square8);
+        }
+        else if(x==6 && (y!=0 && y!=6)){
+            boolean square1 = matrix[x][y-1] != 0;
+            boolean square2 = matrix[x][y+1] != 0;
+            boolean square3 = matrix[x-1][y] != 0;
+            boolean square5 = matrix[x-1][y-1] != 0;
+            boolean square7 = matrix[x-1][y+1] != 0;
+            return !(square1 || square7 || square5 || square2 || square3);
+        }
+        else if(x==6 && y==0){
+            boolean square2 = matrix[x][y+1] != 0;
+            boolean square3 = matrix[x-1][y] != 0;
+            boolean square7 = matrix[x-1][y+1] != 0;
+            return !(square7 || square2 || square3);
+        }
+        else if(x==6 && y==6){
+            boolean square1 = matrix[x][y-1] != 0;
+            boolean square3 = matrix[x-1][y] != 0;
+            boolean square5 = matrix[x-1][y-1] != 0;
+            return !(square1 || square3 || square5);
+        }
+        else if ((x!=0 && x!= 6) && y==0){
+            boolean square2 = matrix[x][y+1] != 0;
+            boolean square3 = matrix[x-1][y] != 0;
+            boolean square4 = matrix[x+1][y] != 0;
+            boolean square6 = matrix[x+1][y+1] != 0;
+            boolean square7 = matrix[x-1][y+1] != 0;
+            return !(square2 || square3 || square4 || square6 || square7);
+        }
+        else if((x!=0 && x!= 6) && y==6){
+            boolean square1 = matrix[x][y-1] != 0;
+            boolean square3 = matrix[x-1][y] != 0;
+            boolean square4 = matrix[x+1][y] != 0;
+            boolean square5 = matrix[x-1][y-1] != 0;
+            boolean square8 = matrix[x+1][y-1] != 0;
+            return !(square1 || square3 || square4 || square5 || square8);
         }
         else{
-            return true;
+            boolean square1 = matrix[x][y-1] != 0;
+            boolean square2 = matrix[x][y+1] != 0;
+            boolean square3 = matrix[x-1][y] != 0;
+            boolean square4 = matrix[x+1][y] != 0;
+            boolean square5 = matrix[x-1][y-1] != 0;
+            boolean square6 = matrix[x+1][y+1] != 0;
+            boolean square7 = matrix[x-1][y+1] != 0;
+            boolean square8 = matrix[x+1][y-1] != 0;
+            return !(square1 || square2 || square3 || square4 || square5 || square6 || square7 || square8);
         }
 
 
@@ -110,7 +194,4 @@ public class Main {
         boolean var4 = x - x1 == -1 && x - x2 == -2;
         return var1 || var2 || var3 || var4;
     }
-}
-
-
 }
