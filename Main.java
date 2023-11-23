@@ -89,8 +89,10 @@ public class Main {
                 }
             }
         }
-        int shot = 0;
-        while(shot < 50){
+        for(int a = 0; a < 50; a++){
+            System.out.println("Hit - *\n" +
+                    "Miss - o\n" +
+                    "Sunk - X");
             for(int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if (j == 0) {
@@ -105,22 +107,28 @@ public class Main {
             System.out.println();
             String shotsLatterCoordinate = scanner.nextLine();
             int shotsXCoordinate = replaceLetter(shotsLatterCoordinate);
-            int shotsYCoordinate = scanner.nextInt();
+            String shotsYCoordinate1 = scanner.nextLine();
+            int shotsYCoordinate = Integer.parseInt(shotsYCoordinate1);
             String miss = "o|";
-            String hit = "X|";
-            String sunk = "*|";
-            if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && checkSquaresAround(shotsXCoordinate, shotsYCoordinate, field)){
+            String hit = "*|";
+            String sunk = "X|";
+            if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && checkSquaresAround(shotsXCoordinate-1, shotsYCoordinate-1, field)){
                 System.out.println("Congratulations! You have sunk 1 ship!");
                 displayField[shotsXCoordinate][shotsYCoordinate] = sunk;
             }
-            else if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0){
+            else if(field[shotsXCoordinate-1][shotsYCoordinate-1] == 1 && !checkSquaresAround(shotsXCoordinate-1, shotsYCoordinate-1, field)){
                 displayField[shotsXCoordinate][shotsYCoordinate] = hit;
+            }
+            else if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && field[shotsXCoordinate-1][shotsYCoordinate-1] != 1){
+                System.out.println("You've already shot this cage! \n" +
+                        "Or you entered the coordinates incorrectly. \n" +
+                        "Try again!");
             }
             else{
                 displayField[shotsXCoordinate][shotsYCoordinate] = miss;
             }
+
             clearConsole();
-            shot++;
         }
 
 
