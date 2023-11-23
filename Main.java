@@ -89,19 +89,71 @@ public class Main {
                 }
             }
         }
+        int shot = 0;
+        while(shot < 50){
+            for(int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (j == 0) {
+                        System.out.print("\n" + displayField[i][j]);
+                    } else {
+                        System.out.print(displayField[i][j]);
+                    }
 
-        for(int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (j == 0) {
-                    System.out.print("\n" + displayField[i][j]);
-                } else {
-                    System.out.print(displayField[i][j]);
                 }
 
             }
-
+            System.out.println();
+            String shotsLatterCoordinate = scanner.nextLine();
+            int shotsXCoordinate = replaceLetter(shotsLatterCoordinate);
+            int shotsYCoordinate = scanner.nextInt();
+            String miss = "o|";
+            String hit = "X|";
+            String sunk = "*|";
+            if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && checkSquaresAround(shotsXCoordinate, shotsYCoordinate, field)){
+                System.out.println("Congratulations! You have sunk 1 ship!");
+                displayField[shotsXCoordinate][shotsYCoordinate] = sunk;
+            }
+            else if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0){
+                displayField[shotsXCoordinate][shotsYCoordinate] = hit;
+            }
+            else{
+                displayField[shotsXCoordinate][shotsYCoordinate] = miss;
+            }
+            clearConsole();
+            shot++;
         }
 
+
+
+    }
+    public static void clearConsole() {
+        System.out.print("\033[H\033[J");
+        System.out.flush();
+    }
+    public static int replaceLetter ( String letter){
+        int rowsNum = 0;
+        if(letter.equals("A") || letter.equals("A;")){
+            rowsNum++;
+        }
+        else if(letter.equals("B") || letter.equals("B;")){
+            rowsNum+=2;
+        }
+        else if(letter.equals("C") || letter.equals("C;")){
+            rowsNum+=3;
+        }
+        else if(letter.equals("D") || letter.equals("D;")){
+            rowsNum+=4;
+        }
+        else if(letter.equals("E") || letter.equals("E;")){
+            rowsNum+=5;
+        }
+        else if(letter.equals("F") || letter.equals("F;")){
+            rowsNum+=6;
+        }
+        else if(letter.equals("G") || letter.equals("G;")){
+            rowsNum+=7;
+        }
+        return rowsNum;
     }
 
     public static String definingСoordinatesLetter (int a){
