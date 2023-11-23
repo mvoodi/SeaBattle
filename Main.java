@@ -75,7 +75,60 @@ public class Main {
 
         }
 
+        String[][] displayField  = new String [8][8];
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                if(j==0 && i!= 0){
+                    displayField[i][j] = definingСoordinatesLetter(i);
+                }
+                else if(i==0 && j!=0){
+                    displayField[i][j] = j + "|";
+                }
+                else{
+                    displayField[i][j] = "_|";
+                }
+            }
+        }
+
+        for(int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (j == 0) {
+                    System.out.print("\n" + displayField[i][j]);
+                } else {
+                    System.out.print(displayField[i][j]);
+                }
+
+            }
+
+        }
+
     }
+
+    public static String definingСoordinatesLetter (int a){
+        if(a==1){
+            return "A|";
+        }
+        else if(a==2){
+            return "B|";
+        }
+        else if(a==3){
+            return "C|";
+        }
+        else if(a==4){
+            return "D|";
+        }
+        else if(a==5){
+            return "E|";
+        }
+        else if(a==6){
+            return "F|";
+        }
+        else{
+            return "G|";
+        }
+    }
+
+
 
     public static boolean check2SquaresShipsAround(int x1, int y1, int x2, int y2, int[][] matrix){
         boolean squaresCheking = checkSquaresAround(x1, y1, matrix) && checkSquaresAround(x2, y2, matrix);
