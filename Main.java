@@ -6,134 +6,209 @@ public class Main {
         Random random = new Random();
         System.out.print("Enter your name: ");
         String name = scanner.nextLine();
-
-        int[][] field  = new int [7][7];
-        for(int i = 0; i < 7; i++){
-            for(int j = 0; j < 7; j++){
-                field[i][j] = 0;
-            }
-        }
-        int value = 0;
-        while( value < 1) {
-            int x12 = random.nextInt(7);
-            int y12 = random.nextInt(7);
-            int x22 = random.nextInt(7);
-            int y22 = random.nextInt(7);
-            int x32 = random.nextInt(7);
-            int y32 = random.nextInt(7);
-
-
-            if (check3squareShipsAllCoordinates(x12, y12, x22, y22, x32, y32)) {
-                System.out.println(x12 + " " + y12 + " " + x22 + " " + y22 + " " + x32 + " " + y32);
-                field[x12][y12]=1;
-                field[x22][y22]=1;
-                field[x32][y32]=1;
-                value++;
-            }
-        }
-        while(value < 3) {
-            int x12 = random.nextInt(7);
-            int y12 = random.nextInt(7);
-            int x22 = random.nextInt(7);
-            int y22 = random.nextInt(7);
-
-
-
-            if(check2squareShipsAllCoordinates(x12, y12, x22, y22) && check2SquaresShipsAround(x12, y12, x22, y22, field)) {
-                System.out.println(x12 + " " + y12 + " " + x22 + " " + y22);
-                field[x12][y12]=1;
-                field[x22][y22]=1;
-                value++;
-            }
-        }
-        value=0;
-        while(value < 4) {
-            int x12 = random.nextInt(7);
-            int y12 = random.nextInt(7);
-
-
-
-            if(checkSquaresAround(x12, y12, field)) {
-                System.out.println(x12 + " " + y12);
-                field[x12][y12]=1;
-                value++;
-            }
-        }
-
-
-
-
-        for(int i = 0; i<7; i++) {
-            for (int j = 0; j < 7; j++) {
-                if (j == 0) {
-                    System.out.print("\n" + field[i][j] + " ");
-                } else {
-                    System.out.print(field[i][j] + " ");
-                }
-
-            }
-
-        }
-
-        String[][] displayField  = new String [8][8];
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-                if(j==0 && i!= 0){
-                    displayField[i][j] = definingСoordinatesLetter(i);
-                }
-                else if(i==0 && j!=0){
-                    displayField[i][j] = j + "|";
-                }
-                else{
-                    displayField[i][j] = "_|";
+        int gameStarting = 0;
+        while(gameStarting == 0){
+            int[][] field  = new int [7][7];
+            for(int i = 0; i < 7; i++){
+                for(int j = 0; j < 7; j++){
+                    field[i][j] = 0;
                 }
             }
-        }
-        for(int a = 0; a < 50; a++){
-            System.out.println("Hit - *\n" +
-                    "Miss - o\n" +
-                    "Sunk - X");
-            for(int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
+            int value = 0;
+            while( value < 1) {
+                int x12 = random.nextInt(7);
+                int y12 = random.nextInt(7);
+                int x22 = random.nextInt(7);
+                int y22 = random.nextInt(7);
+                int x32 = random.nextInt(7);
+                int y32 = random.nextInt(7);
+
+
+                if (check3squareShipsAllCoordinates(x12, y12, x22, y22, x32, y32)) {
+                    System.out.println(x12 + " " + y12 + " " + x22 + " " + y22 + " " + x32 + " " + y32);
+                    field[x12][y12]=1;
+                    field[x22][y22]=1;
+                    field[x32][y32]=1;
+                    value++;
+                }
+            }
+            while(value < 3) {
+                int x12 = random.nextInt(7);
+                int y12 = random.nextInt(7);
+                int x22 = random.nextInt(7);
+                int y22 = random.nextInt(7);
+
+
+
+                if(check2squareShipsAllCoordinates(x12, y12, x22, y22) && check2SquaresShipsAround(x12, y12, x22, y22, field)) {
+                    System.out.println(x12 + " " + y12 + " " + x22 + " " + y22);
+                    field[x12][y12]=1;
+                    field[x22][y22]=1;
+                    value++;
+                }
+            }
+            value=0;
+            while(value < 4) {
+                int x12 = random.nextInt(7);
+                int y12 = random.nextInt(7);
+
+
+
+                if(checkSquaresAround(x12, y12, field)) {
+                    System.out.println(x12 + " " + y12);
+                    field[x12][y12]=1;
+                    value++;
+                }
+            }
+
+
+
+
+            for(int i = 0; i<7; i++) {
+                for (int j = 0; j < 7; j++) {
                     if (j == 0) {
-                        System.out.print("\n" + displayField[i][j]);
+                        System.out.print("\n" + field[i][j] + " ");
                     } else {
-                        System.out.print(displayField[i][j]);
+                        System.out.print(field[i][j] + " ");
                     }
 
                 }
 
             }
-            System.out.println();
-            String shotsLatterCoordinate = scanner.nextLine();
-            int shotsXCoordinate = replaceLetter(shotsLatterCoordinate);
-            String shotsYCoordinate1 = scanner.nextLine();
-            int shotsYCoordinate = Integer.parseInt(shotsYCoordinate1);
-            String miss = "o|";
-            String hit = "*|";
-            String sunk = "X|";
-            if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && checkSquaresAround(shotsXCoordinate-1, shotsYCoordinate-1, field)){
-                System.out.println("Congratulations! You have sunk 1 ship!");
-                displayField[shotsXCoordinate][shotsYCoordinate] = sunk;
-            }
-            else if(field[shotsXCoordinate-1][shotsYCoordinate-1] == 1 && !checkSquaresAround(shotsXCoordinate-1, shotsYCoordinate-1, field)){
-                displayField[shotsXCoordinate][shotsYCoordinate] = hit;
-            }
-            else if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && field[shotsXCoordinate-1][shotsYCoordinate-1] != 1){
-                System.out.println("You've already shot this cage! \n" +
-                        "Or you entered the coordinates incorrectly. \n" +
-                        "Try again!");
-            }
-            else{
-                displayField[shotsXCoordinate][shotsYCoordinate] = miss;
-            }
 
-            clearConsole();
+            String[][] displayField  = new String [8][8];
+            for(int i = 0; i < 8; i++){
+                for(int j = 0; j < 8; j++){
+                    if(j==0 && i!= 0){
+                        displayField[i][j] = definingСoordinatesLetter(i);
+                    }
+                    else if(i==0 && j!=0){
+                        displayField[i][j] = j + "|";
+                    }
+                    else{
+                        displayField[i][j] = "_|";
+                    }
+                }
+            }
+            int shipssunkNumber = 0;
+            for(int a = 0; a < 50; a++){
+                System.out.println("Hit - *\n" +
+                        "Miss - o\n" +
+                        "Sunk - X");
+                for(int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        if (j == 0) {
+                            System.out.print("\n" + displayField[i][j]);
+                        } else {
+                            System.out.print(displayField[i][j]);
+                        }
+
+                    }
+
+                }
+                System.out.println();
+                String shotsLatterCoordinate = scanner.nextLine();
+                int shotsXCoordinate = replaceLetter(shotsLatterCoordinate);
+                String shotsYCoordinate1 = scanner.nextLine();
+                int shotsYCoordinate = Integer.parseInt(shotsYCoordinate1);
+                String miss = "o|";
+                String hit = "*|";
+                String sunk = "X|";
+                if(field[shotsXCoordinate-1][shotsYCoordinate-1] == 1){
+                    displayField[shotsXCoordinate][shotsYCoordinate] = hit;
+                    if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && checkSquaresAround(shotsXCoordinate-1, shotsYCoordinate-1, field)){
+                        System.out.println("Congratulations! You have sunk 1 ship!");
+                        displayField[shotsXCoordinate][shotsYCoordinate] = sunk;
+                        shipssunkNumber++;
+                    }
+                    else if(check3and2squareship(shotsXCoordinate, shotsYCoordinate, displayField)){
+                        System.out.println("Congratulations! You have sunk 1 ship!");
+                        shipssunkNumber++;
+                    }
+                }
+                else if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && field[shotsXCoordinate-1][shotsYCoordinate-1] != 1){
+                    System.out.println("You've already shot this cage! \n" +
+                            "Or you entered the coordinates incorrectly. \n" +
+                            "Try again!");
+                }
+                else{
+                    displayField[shotsXCoordinate][shotsYCoordinate] = miss;
+                }
+                if(shipssunkNumber==6){
+                    a=49;
+                }
+                clearConsole();
+            }
+            System.out.println("Do you want to play again?(Yes/No)");
+
+        }
+    }
+
+    public static boolean checkRestartGame()
+    public static boolean check3and2squareship(int x, int y, String[][] matrix){
+        if(matrix[x][y].equals("*|") && matrix[x][y-1].equals("*|") && matrix[x][y - 2].equals("*|")){
+            matrix[x][y] = "X|";
+            matrix[x][y-1] = "X|";
+            matrix[x][y-2] = "X|";
+            return true;
+        }
+        else if(matrix[x][y].equals("*|") && matrix[x][y+1].equals("*|") && matrix[x][y + 2].equals("*|")){
+            matrix[x][y] = "X|";
+            matrix[x][y+1] = "X|";
+            matrix[x][y+2] = "X|";
+            return true;
+        }
+        else if(matrix[x][y].equals("*|") && matrix[x][y+1].equals("*|") && matrix[x][y - 1].equals("*|")){
+            matrix[x][y] = "X|";
+            matrix[x][y-1] = "X|";
+            matrix[x][y+1] = "X|";
+            return true;
+        }
+        else if(matrix[x][y].equals("*|") && matrix[x+1][y].equals("*|") && matrix[x+2][y].equals("*|")){
+            matrix[x][y] = "X|";
+            matrix[x+1][y] = "X|";
+            matrix[x+2][y] = "X|";
+            return true;
+        }
+        else if(matrix[x][y].equals("*|") && matrix[x-1][y].equals("*|") && matrix[x-2][y].equals("*|")){
+            matrix[x][y] = "X|";
+            matrix[x-1][y] = "X|";
+            matrix[x-2][y] = "X|";
+            return true;
+        }
+        else if(matrix[x][y].equals("*|") && matrix[x+1][y].equals("*|") && matrix[x-1][y].equals("*|")){
+            matrix[x][y] = "X|";
+            matrix[x+1][y] = "X|";
+            matrix[x-1][y] = "X|";
+            return true;
+        }
+        else if(matrix[x][y].equals("*|") && matrix[x][y-1].equals("*|")) {
+            matrix[x][y] = "X|";
+            matrix[x][y - 1] = "X|";
+            return true;
+        }
+        else if(matrix[x][y].equals("*|") && matrix[x][y+1].equals("*|")) {
+            matrix[x][y] = "X|";
+            matrix[x][y + 1] = "X|";
+            return true;
+        }
+        else if(matrix[x][y].equals("*|") && matrix[x-1][y].equals("*|")) {
+            matrix[x][y] = "X|";
+            matrix[x-1][y] = "X|";
+            return true;
+        }
+        else if(matrix[x][y].equals("*|") && matrix[x+1][y].equals("*|")) {
+            matrix[x][y] = "X|";
+            matrix[x+1][y] = "X|";
+            return true;
+        }
+        else{
+            return false;
         }
 
 
-
     }
+
     public static void clearConsole() {
         System.out.print("\033[H\033[J");
         System.out.flush();
