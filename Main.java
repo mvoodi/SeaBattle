@@ -122,10 +122,10 @@ public class Main {
                         shipssunkNumber++;
                     }
                 }
-                else if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && field[shotsXCoordinate-1][shotsYCoordinate-1] != 1){
+                else if(displayField[shotsXCoordinate][shotsYCoordinate].equals("o|") || displayField[shotsXCoordinate][shotsYCoordinate].equals("*|") || displayField[shotsXCoordinate][shotsYCoordinate].equals("X|")){
                     System.out.println("You've already shot this cage! \n" +
-                            "Or you entered the coordinates incorrectly. \n" +
                             "Try again!");
+                    a--;
                 }
                 else{
                     displayField[shotsXCoordinate][shotsYCoordinate] = miss;
