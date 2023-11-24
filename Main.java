@@ -25,7 +25,6 @@ public class Main {
 
 
                 if (check3squareShipsAllCoordinates(x12, y12, x22, y22, x32, y32)) {
-                    System.out.println(x12 + " " + y12 + " " + x22 + " " + y22 + " " + x32 + " " + y32);
                     field[x12][y12]=3;
                     field[x22][y22]=3;
                     field[x32][y32]=3;
@@ -41,21 +40,16 @@ public class Main {
 
 
                 if(check2squareShipsAllCoordinates(x12, y12, x22, y22) && check2SquaresShipsAround(x12, y12, x22, y22, field)) {
-                    System.out.println(x12 + " " + y12 + " " + x22 + " " + y22);
                     field[x12][y12]=2;
                     field[x22][y22]=2;
                     value++;
                 }
             }
             value=0;
-            while(value < 4) {
+            while(value != 3) {
                 int x12 = random.nextInt(7);
                 int y12 = random.nextInt(7);
-
-
-
                 if(checkSquaresAround(x12, y12, field)) {
-                    System.out.println(x12 + " " + y12);
                     field[x12][y12]=1;
                     value++;
                 }
@@ -141,6 +135,18 @@ public class Main {
                 }
                 clearConsole();
             }
+            for(int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (j == 0) {
+                        System.out.print("\n" + displayField[i][j]);
+                    } else {
+                        System.out.print(displayField[i][j]);
+                    }
+
+                }
+
+            }
+            System.out.println();
             System.out.println("Congratulations! You have won this game and sunk all the ships!");
             System.out.println("Do you want to play again?(Yes/No)");
             String restartGameAnswer = scanner.nextLine();
@@ -159,68 +165,89 @@ public class Main {
             return true;
         }
     }
-    public static boolean check3and2squareship(int x, int y, String[][] matrix, int[][] field){
-        if(matrix[x][y].equals("*|") && matrix[x][y-1].equals("*|") && matrix[x][y - 2].equals("*|") && field[x-1][y-1] == 3){
-            matrix[x][y] = "X|";
-            matrix[x][y-1] = "X|";
-            matrix[x][y-2] = "X|";
-            return true;
+    public static boolean check3and2squareship(int x, int y, String[][] matrix, int[][] field) {
+        int chechcounter = 0;
+        if (field[x - 1][y - 1] == 3 && y > 2) {
+            if (matrix[x][y].equals("*|") && matrix[x][y - 1].equals("*|") && matrix[x][y - 2].equals("*|")) {
+                matrix[x][y] = "X|";
+                matrix[x][y - 1] = "X|";
+                matrix[x][y - 2] = "X|";
+                chechcounter++;
+                return true;
+            }
         }
-        else if(matrix[x][y].equals("*|") && matrix[x][y+1].equals("*|") && matrix[x][y + 2].equals("*|") && field[x-1][y-1] == 3){
-            matrix[x][y] = "X|";
-            matrix[x][y+1] = "X|";
-            matrix[x][y+2] = "X|";
-            return true;
+        if (field[x - 1][y - 1] == 3 && y < 6) {
+            if (matrix[x][y].equals("*|") && matrix[x][y + 1].equals("*|") && matrix[x][y + 2].equals("*|")) {
+                matrix[x][y] = "X|";
+                matrix[x][y + 1] = "X|";
+                matrix[x][y + 2] = "X|";
+                chechcounter++;
+            }
         }
-        else if(matrix[x][y].equals("*|") && matrix[x][y+1].equals("*|") && matrix[x][y - 1].equals("*|") && field[x-1][y-1] == 3){
-            matrix[x][y] = "X|";
-            matrix[x][y-1] = "X|";
-            matrix[x][y+1] = "X|";
-            return true;
+        if (y > 1 && y < 7 && field[x - 1][y - 1] == 3) {
+            if (matrix[x][y].equals("*|") && matrix[x][y + 1].equals("*|") && matrix[x][y - 1].equals("*|")) {
+                matrix[x][y] = "X|";
+                matrix[x][y - 1] = "X|";
+                matrix[x][y + 1] = "X|";
+                chechcounter++;
+            }
         }
-        else if(matrix[x][y].equals("*|") && matrix[x+1][y].equals("*|") && matrix[x+2][y].equals("*|") && field[x-1][y-1] == 3){
-            matrix[x][y] = "X|";
-            matrix[x+1][y] = "X|";
-            matrix[x+2][y] = "X|";
-            return true;
-        }
-        else if(matrix[x][y].equals("*|") && matrix[x-1][y].equals("*|") && matrix[x-2][y].equals("*|") && field[x-1][y-1] == 3){
-            matrix[x][y] = "X|";
-            matrix[x-1][y] = "X|";
-            matrix[x-2][y] = "X|";
-            return true;
-        }
-        else if(matrix[x][y].equals("*|") && matrix[x+1][y].equals("*|") && matrix[x-1][y].equals("*|") && field[x-1][y-1] == 3){
-            matrix[x][y] = "X|";
-            matrix[x+1][y] = "X|";
-            matrix[x-1][y] = "X|";
-            return true;
-        }
-        else if(matrix[x][y].equals("*|") && matrix[x][y-1].equals("*|") && field[x-1][y-1] == 2) {
-            matrix[x][y] = "X|";
-            matrix[x][y - 1] = "X|";
-            return true;
-        }
-        else if(matrix[x][y].equals("*|") && matrix[x][y+1].equals("*|") && field[x-1][y-1] == 2) {
-            matrix[x][y] = "X|";
-            matrix[x][y + 1] = "X|";
-            return true;
-        }
-        else if(matrix[x][y].equals("*|") && matrix[x-1][y].equals("*|") && field[x-1][y-1] == 2) {
-            matrix[x][y] = "X|";
-            matrix[x-1][y] = "X|";
-            return true;
-        }
-        else if(matrix[x][y].equals("*|") && matrix[x+1][y].equals("*|") && field[x-1][y-1] == 2) {
-            matrix[x][y] = "X|";
-            matrix[x+1][y] = "X|";
-            return true;
-        }
-        else{
-            return false;
-        }
+        if (x < 6 && field[x - 1][y - 1] == 3) {
+            if (matrix[x][y].equals("*|") && matrix[x + 1][y].equals("*|") && matrix[x + 2][y].equals("*|")) {
+                matrix[x][y] = "X|";
+                matrix[x + 1][y] = "X|";
+                matrix[x + 2][y] = "X|";
+                chechcounter++;
 
+            }
+        }
+        if (x > 2 && field[x - 1][y - 1] == 3) {
+            if (matrix[x][y].equals("*|") && matrix[x - 1][y].equals("*|") && matrix[x - 2][y].equals("*|")) {
+                matrix[x][y] = "X|";
+                matrix[x - 1][y] = "X|";
+                matrix[x - 2][y] = "X|";
+                chechcounter++;
 
+            }
+        }
+        if (x > 1 && x < 7 && field[x - 1][y - 1] == 3) {
+            if (matrix[x][y].equals("*|") && matrix[x + 1][y].equals("*|") && matrix[x - 1][y].equals("*|")) {
+                matrix[x][y] = "X|";
+                matrix[x + 1][y] = "X|";
+                matrix[x - 1][y] = "X|";
+                chechcounter++;
+
+            }
+        }
+        if (y > 1 && field[x - 1][y - 1] == 2) {
+            if (matrix[x][y].equals("*|") && matrix[x][y - 1].equals("*|")) {
+                matrix[x][y] = "X|";
+                matrix[x][y - 1] = "X|";
+                chechcounter++;
+            }
+        }
+        if (y < 7 && field[x - 1][y - 1] == 2) {
+            if (matrix[x][y].equals("*|") && matrix[x][y + 1].equals("*|")) {
+                matrix[x][y] = "X|";
+                matrix[x][y + 1] = "X|";
+                chechcounter++;
+            }
+        }
+        if (x > 1 && field[x - 1][y - 1] == 2) {
+            if (matrix[x][y].equals("*|") && matrix[x - 1][y].equals("*|")) {
+                matrix[x][y] = "X|";
+                matrix[x - 1][y] = "X|";
+                chechcounter++;
+            }
+        }
+        if (x < 7 && field[x - 1][y - 1] == 2) {
+            if (matrix[x][y].equals("*|") && matrix[x + 1][y].equals("*|")) {
+                matrix[x][y] = "X|";
+                matrix[x + 1][y] = "X|";
+                chechcounter++;
+            }
+        }
+        return chechcounter != 0;
     }
 
     public static void clearConsole() {
