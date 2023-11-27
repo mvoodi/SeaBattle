@@ -63,44 +63,46 @@ public class Main {
 
 
 
-            for(int i = 0; i<7; i++) {
-                for (int j = 0; j < 7; j++) {
-                    if (j == 0) {
-                        System.out.print("\n" + field[i][j] + " ");
-                    } else {
-                        System.out.print(field[i][j] + " ");
-                    }
+//            for(int i = 0; i<7; i++) {
+//                for (int j = 0; j < 7; j++) {
+//                    if (j == 0) {
+//                        System.out.print("\n" + field[i][j] + " ");
+//                    } else {
+//                        System.out.print(field[i][j] + " ");
+//                    }
+//
+//                }
+//
+//            }
 
-                }
+            System.out.println("The game begins!");
 
-            }
-
-            String[][] displayField  = new String [8][8];
+            String[][] UsersField  = new String [8][8];
             for(int i = 0; i < 8; i++){
                 for(int j = 0; j < 8; j++){
                     if(j==0 && i!= 0){
-                        displayField[i][j] = definingРЎoordinatesLetter(i);
+                        UsersField[i][j] = identifyLetters(i);
                     }
                     else if(i==0 && j!=0){
-                        displayField[i][j] = j + "|";
+                        UsersField[i][j] = j + "|";
                     }
                     else{
-                        displayField[i][j] = "_|";
+                        UsersField[i][j] = "_|";
                     }
                 }
             }
-            int shipssunkNumber = 0;
+            int shipsSunksNumber = 0;
             int points = 0;
-            for(int a = 0; a < 50; a++){
-                System.out.println("Hit - *\n" +
+            while(shipsSunksNumber != 6 ){
+                System.out.println("\nHit - *\n" +
                         "Miss - o\n" +
                         "Sunk - X");
                 for(int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
                         if (j == 0) {
-                            System.out.print("\n" + displayField[i][j]);
+                            System.out.print("\n" + UsersField[i][j]);
                         } else {
-                            System.out.print(displayField[i][j]);
+                            System.out.print(UsersField[i][j]);
                         }
 
                     }
@@ -113,41 +115,50 @@ public class Main {
                 System.out.print("Enter coordinate(number): ");
                 String shotsYCoordinate1 = scanner.nextLine();
                 int shotsYCoordinate = Integer.parseInt(shotsYCoordinate1);
-                String miss = "o|";
-                String hit = "*|";
-                String sunk = "X|";
-                points++;
-                if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0){
-                    displayField[shotsXCoordinate][shotsYCoordinate] = hit;
-                    if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && checkSquaresAround(shotsXCoordinate-1, shotsYCoordinate-1, field)){
-                        System.out.println("Congratulations! You have sunk 1 ship!");
-                        displayField[shotsXCoordinate][shotsYCoordinate] = sunk;
-                        shipssunkNumber++;
-                    }
-                    else if(check3and2squareship(shotsXCoordinate, shotsYCoordinate, displayField, field)){
-                        System.out.println("Congratulations! You have sunk 1 ship!");
-                        shipssunkNumber++;
-                    }
-                }
-                else if(displayField[shotsXCoordinate][shotsYCoordinate].equals("o|") || displayField[shotsXCoordinate][shotsYCoordinate].equals("*|") || displayField[shotsXCoordinate][shotsYCoordinate].equals("X|")){
-                    System.out.println("You've already shot this cage! \n" +
-                            "Try again!");
-                    a--;
+                if(shotsXCoordinate < 1 || shotsXCoordinate > 7 || shotsYCoordinate < 1 || shotsYCoordinate > 7){
+                    System.out.println("You entered the coordinates incorrectly. \n" +
+                            "Please enter a capital letter and a number from 1 to 7th");
                 }
                 else{
-                    displayField[shotsXCoordinate][shotsYCoordinate] = miss;
+                    String miss = "o|";
+                    String hit = "*|";
+                    String sunk = "X|";
+                    points++;
+                    if(UsersField[shotsXCoordinate][shotsYCoordinate].equals("o|") || UsersField[shotsXCoordinate][shotsYCoordinate].equals("*|") || UsersField[shotsXCoordinate][shotsYCoordinate].equals("X|")){
+                        System.out.println("You've already shot this cage! \n" +
+                                "Try again!");
+                    }
+                    else{
+                        if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0){
+                            UsersField[shotsXCoordinate][shotsYCoordinate] = hit;
+                            if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && checkSquaresAround(shotsXCoordinate-1, shotsYCoordinate-1, field)){
+                                System.out.println("Congratulations! You have sunk 1 ship!");
+                                UsersField[shotsXCoordinate][shotsYCoordinate] = sunk;
+                                shipsSunksNumber++;
+                            }
+                            else if(check3and2squareship(shotsXCoordinate, shotsYCoordinate, UsersField, field)){
+                                System.out.println("Congratulations! You have sunk 1 ship!");
+                                shipsSunksNumber++;
+                            }
+
+                        }
+                        else{
+                            UsersField[shotsXCoordinate][shotsYCoordinate] = miss;
+                        }
+                    }
                 }
-                if(shipssunkNumber==6){
-                    a=49;
-                }
+
+
+
+
                 clearConsole();
             }
             for(int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if (j == 0) {
-                        System.out.print("\n" + displayField[i][j]);
+                        System.out.print("\n" + UsersField[i][j]);
                     } else {
-                        System.out.print(displayField[i][j]);
+                        System.out.print(UsersField[i][j]);
                     }
 
                 }
@@ -167,10 +178,10 @@ public class Main {
                 for(int i = 0; i < gameNumber + 1; i++){
                     allpoints[i] = pointsList.get(i);
                 }
-                sortNameandPoints(allnames, allpoints);
+                sortNameAndPoints(allnames, allpoints);
                 for(int i = 0; i < gameNumber + 1; i++){
                     int numeration = i + 1;
-                    System.out.print(numeration + " " + allnames[i] + " " + allpoints[i] + "\n");
+                    System.out.print(numeration + ". " + allnames[i] + ": " + allpoints[i] + "\n");
                 }
             }
             else{
@@ -182,7 +193,7 @@ public class Main {
 
 
 
-    public static void sortNameandPoints(String[] names, int[] points){
+    public static void sortNameAndPoints(String[] names, int[] points){
         for (int i = 0; i < points.length - 1; i++) {
             for(int j = 0; j < points.length - i - 1; j++) {
                 if(points[j + 1] < points[j]) {
@@ -207,13 +218,13 @@ public class Main {
         }
     }
     public static boolean check3and2squareship(int x, int y, String[][] matrix, int[][] field) {
-        int chechcounter = 0;
+        int checkcounter = 0;
         if (field[x - 1][y - 1] == 3 && y > 2) {
             if (matrix[x][y].equals("*|") && matrix[x][y - 1].equals("*|") && matrix[x][y - 2].equals("*|")) {
                 matrix[x][y] = "X|";
                 matrix[x][y - 1] = "X|";
                 matrix[x][y - 2] = "X|";
-                chechcounter++;
+                checkcounter++;
                 return true;
             }
         }
@@ -222,7 +233,7 @@ public class Main {
                 matrix[x][y] = "X|";
                 matrix[x][y + 1] = "X|";
                 matrix[x][y + 2] = "X|";
-                chechcounter++;
+                checkcounter++;
             }
         }
         if (y > 1 && y < 7 && field[x - 1][y - 1] == 3) {
@@ -230,7 +241,7 @@ public class Main {
                 matrix[x][y] = "X|";
                 matrix[x][y - 1] = "X|";
                 matrix[x][y + 1] = "X|";
-                chechcounter++;
+                checkcounter++;
             }
         }
         if (x < 6 && field[x - 1][y - 1] == 3) {
@@ -238,7 +249,7 @@ public class Main {
                 matrix[x][y] = "X|";
                 matrix[x + 1][y] = "X|";
                 matrix[x + 2][y] = "X|";
-                chechcounter++;
+                checkcounter++;
 
             }
         }
@@ -247,7 +258,7 @@ public class Main {
                 matrix[x][y] = "X|";
                 matrix[x - 1][y] = "X|";
                 matrix[x - 2][y] = "X|";
-                chechcounter++;
+                checkcounter++;
 
             }
         }
@@ -256,7 +267,7 @@ public class Main {
                 matrix[x][y] = "X|";
                 matrix[x + 1][y] = "X|";
                 matrix[x - 1][y] = "X|";
-                chechcounter++;
+                checkcounter++;
 
             }
         }
@@ -264,31 +275,31 @@ public class Main {
             if (matrix[x][y].equals("*|") && matrix[x][y - 1].equals("*|")) {
                 matrix[x][y] = "X|";
                 matrix[x][y - 1] = "X|";
-                chechcounter++;
+                checkcounter++;
             }
         }
         if (y < 7 && field[x - 1][y - 1] == 2) {
             if (matrix[x][y].equals("*|") && matrix[x][y + 1].equals("*|")) {
                 matrix[x][y] = "X|";
                 matrix[x][y + 1] = "X|";
-                chechcounter++;
+                checkcounter++;
             }
         }
         if (x > 1 && field[x - 1][y - 1] == 2) {
             if (matrix[x][y].equals("*|") && matrix[x - 1][y].equals("*|")) {
                 matrix[x][y] = "X|";
                 matrix[x - 1][y] = "X|";
-                chechcounter++;
+                checkcounter++;
             }
         }
         if (x < 7 && field[x - 1][y - 1] == 2) {
             if (matrix[x][y].equals("*|") && matrix[x + 1][y].equals("*|")) {
                 matrix[x][y] = "X|";
                 matrix[x + 1][y] = "X|";
-                chechcounter++;
+                checkcounter++;
             }
         }
-        return chechcounter != 0;
+        return checkcounter != 0;
     }
 
     public static void clearConsole() {
@@ -321,7 +332,7 @@ public class Main {
         return rowsNum;
     }
 
-    public static String definingРЎoordinatesLetter (int a){
+    public static String identifyLetters(int a){
         if(a==1){
             return "A|";
         }
