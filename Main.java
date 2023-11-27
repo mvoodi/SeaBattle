@@ -1,13 +1,18 @@
 import java.util.Scanner;
 import java.util.Random;
+import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
-        System.out.print("Enter your name: ");
-        String name = scanner.nextLine();
+
+        ArrayList<String> namesList = new ArrayList<String>();
+        ArrayList<Integer> pointsList = new ArrayList<Integer>();
         int gameStarting = 0;
+        int gameNumber = 0;
         while(gameStarting == 0){
+            System.out.print("Enter your name: ");
+            String name = scanner.nextLine();
             int[][] field  = new int [7][7];
             for(int i = 0; i < 7; i++){
                 for(int j = 0; j < 7; j++){
@@ -74,7 +79,7 @@ public class Main {
             for(int i = 0; i < 8; i++){
                 for(int j = 0; j < 8; j++){
                     if(j==0 && i!= 0){
-                        displayField[i][j] = definingСoordinatesLetter(i);
+                        displayField[i][j] = definingРЎoordinatesLetter(i);
                     }
                     else if(i==0 && j!=0){
                         displayField[i][j] = j + "|";
@@ -85,6 +90,7 @@ public class Main {
                 }
             }
             int shipssunkNumber = 0;
+            int points = 0;
             for(int a = 0; a < 50; a++){
                 System.out.println("Hit - *\n" +
                         "Miss - o\n" +
@@ -110,6 +116,7 @@ public class Main {
                 String miss = "o|";
                 String hit = "*|";
                 String sunk = "X|";
+                points++;
                 if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0){
                     displayField[shotsXCoordinate][shotsYCoordinate] = hit;
                     if(field[shotsXCoordinate-1][shotsYCoordinate-1] != 0 && checkSquaresAround(shotsXCoordinate-1, shotsYCoordinate-1, field)){
@@ -146,14 +153,48 @@ public class Main {
                 }
 
             }
+            namesList.add(gameNumber, name);
+            pointsList.add(gameNumber, points);
             System.out.println();
             System.out.println("Congratulations! You have won this game and sunk all the ships!");
             System.out.println("Do you want to play again?(Yes/No)");
             String restartGameAnswer = scanner.nextLine();
             if(checkRestartGame(restartGameAnswer)){
                 gameStarting++;
+                String[] allnames = new String[namesList.size()];
+                namesList.toArray(allnames);
+                int [] allpoints = new int[pointsList.size()];
+                for(int i = 0; i < gameNumber + 1; i++){
+                    allpoints[i] = pointsList.get(i);
+                }
+                sortNameandPoints(allnames, allpoints);
+                for(int i = 0; i < gameNumber + 1; i++){
+                    int numeration = i + 1;
+                    System.out.print(numeration + " " + allnames[i] + " " + allpoints[i] + "\n");
+                }
+            }
+            else{
+                gameNumber++;
             }
 
+        }
+    }
+
+
+
+    public static void sortNameandPoints(String[] names, int[] points){
+        for (int i = 0; i < points.length - 1; i++) {
+            for(int j = 0; j < points.length - i - 1; j++) {
+                if(points[j + 1] < points[j]) {
+                    int swap = points[j];
+                    String swap1 = names[j];
+                    points[j] = points[j + 1];
+                    names[j] = names[j + 1];
+                    points[j + 1] = swap;
+                    names[j + 1] = swap1;
+
+                }
+            }
         }
     }
 
@@ -280,7 +321,7 @@ public class Main {
         return rowsNum;
     }
 
-    public static String definingСoordinatesLetter (int a){
+    public static String definingРЎoordinatesLetter (int a){
         if(a==1){
             return "A|";
         }
